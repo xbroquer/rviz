@@ -218,21 +218,18 @@ void MeshResourceMarker::onNewMessage(const MarkerConstPtr& old_message, const M
   //  then the color will be used to tint the embedded materials
   if (update_color)
   { 
-    if( new_message->mesh_use_embedded_materials && r == 0 && g == 0 && b == 0 && a == 0 )
+    if( ! (new_message->mesh_use_embedded_materials && r == 0.0f && g == 0.0f && b == 0.0f && a == 0.0f) )
     {
-    blending = Ogre::SBT_REPLACE;
-    depth_write = true;
-    r = 1; g = 1; b = 1; a = 1;
-    }
-    S_MaterialPtr::iterator material_it;
-    for (material_it = materials_.begin(); material_it != materials_.end(); material_it++)
-    {
-      Ogre::Technique* technique = (*material_it)->getTechnique(0);
-      technique->setAmbient( r*0.5, g*0.5, b*0.5 );
-      technique->setDiffuse( r, g, b, a );
-      technique->setSceneBlending( blending );
-      technique->setDepthWriteEnabled( depth_write );
-      technique->setLightingEnabled( true );
+        S_MaterialPtr::iterator material_it;
+        for (material_it = materials_.begin(); material_it != materials_.end(); material_it++)
+        {
+          Ogre::Technique* technique = (*material_it)->getTechnique(0);
+          technique->setAmbient( r*0.5f, g*0.5f, b*0.5f );
+          technique->setDiffuse( r, g, b, a );
+          technique->setSceneBlending( blending );
+          technique->setDepthWriteEnabled( depth_write );
+          technique->setLightingEnabled( true );
+        }
     }
    
   }
